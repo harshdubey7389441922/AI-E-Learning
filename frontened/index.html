@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI E-Learning Platform</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+ <div id="authBox" class="auth-wrapper">
+  <div class="auth-card">
+    <h2 id="authTitle">Login</h2>
+
+    <input id="nameInput" placeholder="Full Name" style="display:none" />
+    <input id="emailInput" placeholder="Email" />
+    <input id="passwordInput" type="password" placeholder="Password" />
+
+    <!-- Add below password input -->
+<p class="forget-pass" onclick="forgetPassword()">Forgot Password?</p>
+
+    <button id="authBtn" onclick="handleAuth()">Login</button>
+
+    <p class="auth-toggle" onclick="toggleAuth()" id="authToggleText">
+      Don’t have an account? <span>Sign up</span>
+    </p>
+  </div>
+</div>
+
+<div id="mainApp" style="display:none;">
+<div class="dashboard" id="dashboard">
+  <h2>Welcome, <span id="userName"></span>!</h2>
+  <p>Email: <span id="userEmail"></span></p>
+</div>
+
+<!-- Notes Icon -->
+<div id="notesIcon" class="notes-icon" onclick="toggleNotes()">📝</div>
+
+<!-- Notes Panel -->
+<div id="notesPanel" class="notes-panel hidden">
+  <div class="notes-header">
+    <h3>My Notes</h3>
+    <span onclick="closeNotes()">✖</span>
+  </div>
+  <textarea id="notesTextarea" placeholder="Write your notes here..."></textarea>
+  <button onclick="saveNotes()">💾 Save</button>
+</div>
+
+  <!-- THEME TOGGLE -->
+  <button id="themeToggle" class="theme-toggle">🌙</button>
+
+  <div class="app">
+
+    <header>
+      <h1>📘 AI E-Learning</h1>
+      <p>Search any study topic & get smart explanations</p>
+    </header>
+
+    <div class="card input-card">
+      <textarea id="question" placeholder="Enter any study related topic..."></textarea>
+
+      <div class="buttons">
+        <button onclick="askAI()">🔍 Search</button>
+        <button class="secondary" onclick="downloadPDF()">⬇ Download PDF</button>
+      </div>
+    </div>
+
+    <!-- ANSWER CARD -->
+    <div class="card answer-card hidden" id="answerCard">
+      <div class="answer-header">
+        <h2>📖 Explanation</h2>
+        <span class="close-btn" onclick="closeAnswer()">✖</span>
+      </div>
+
+      <div id="answer"></div>
+    </div>
+
+  </div>
+  <!-- CHATBOT -->
+<div class="chatbot" id="chatbot"> 
+<div class="chat-header" onclick="toggleChat()">
+  <span>🤖
+  </span>
+  <button class="clear-chat" onclick="clearChat(event)">🗑</button>
+</div>
+
+
+
+  <div class="chat-messages" id="chatMessages"></div>
+
+  <div class="chat-input">
+    <input type="text" id="chatInput" placeholder="Ask something..." />
+    <button onclick="sendMessage()">Send</button>
+    <button id="micBtn" onclick="startVoice()">🎤</button>
+  </div>
+</div>
+
+<section class="quiz-section" id="quizSection">
+  <div class="quiz-header">
+    <h2>🧠 AI Quiz Generator</h2>
+  </div>
+
+  <input
+    type="text"
+    id="quizTopic"
+    placeholder="Enter any study topic (e.g. Physics)"
+  />
+
+  <button onclick="generateQuiz()">Generate Quiz</button>
+
+  <div class="quiz-actions">
+  <span class="quiz-close" onclick="closeQuiz()">❌</span>
+</div>
+
+
+  <div id="quizContainer"></div>
+
+  <button id="submitQuizBtn" onclick="submitQuiz()" style="display:none">
+    Submit Quiz
+  </button>
+
+  <div id="quizResult"></div>
+</section>
+
+</div>
+
+<button id="logoutBtn" onclick="logout()" style="display:none">
+  Logout
+</button>
+
+
+  <script src="script.js"></script>
+</body>
+</html>
