@@ -11,7 +11,6 @@ import authenticate from "./middleware/authenticate.js"; // JWT middleware
 
 
 import User from "./models/User.js";
-import Progress from "./models/Progress.js";
 
 
 // Auth middleware
@@ -170,8 +169,8 @@ app.post("/chat",authMiddleware, async (req, res) => {
   }
 });
 
-app.post("/generate-quiz",authMiddleware, async (req, res) => {
-  const { topic } = req.body;
+app.post("/generate-quiz", authMiddleware, async (req, res) => {
+  const { topic, difficulty, count } = req.body;
 
   try {
     const response = await axios.post(
@@ -180,11 +179,15 @@ app.post("/generate-quiz",authMiddleware, async (req, res) => {
         model: "llama-3.1-8b-instant",
         messages: [
           {
-  role: "user",
-  content: `
-Generate a 5-question MCQ quiz on "${topic}".
+            role: "user",
+            content: `
+Generate EXACTLY ${count} multiple-choice (MCQ) questions on the topic "${topic}".
 
-Return ONLY valid JSON in this EXACT format:
+Difficulty level: ${difficulty}
+
+Each question must have 4 options (A, B, C, D).
+
+Return ONLY valid JSON in the following EXACT format:
 
 [
   {
@@ -196,17 +199,19 @@ Return ONLY valid JSON in this EXACT format:
       { "key": "D", "text": "option text" }
     ],
     "correct": "A",
-    "concept": "weak topic name"
+    "concept": "related sub-topic or weak area"
   }
 ]
 
 STRICT RULES:
-- No explanation
+- Generate exactly ${count} questions, no more, no less
+- Difficulty must strictly match "${difficulty}"
+- Concepts must be meaningful sub-topics of "${topic}"
+- No explanations
 - No markdown
-- No text outside JSON
+- No extra text outside JSON
 `
-}
-
+          }
         ],
         temperature: 0.3
       },
@@ -220,16 +225,19 @@ STRICT RULES:
 
     const raw = response.data.choices[0].message.content.trim();
 
-    // 🔥 SAFETY CHECK
-    const quiz = JSON.parse(raw);
+    const safeCount = Number(count) || 5;
+let quiz = JSON.parse(response.data.choices[0].message.content.trim());
+// 🔥 ABSOLUTE ENFORCEMENT
+quiz = quiz.slice(0, safeCount);
+res.json({ quiz });
 
-    res.json({ quiz });
 
-  } catch (error) {
-    console.log("QUIZ ERROR:", error.message);
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Quiz generation failed" });
   }
 });
+
 
 app.post("/signup", async (req, res) => {
   const { name, email, password } = req.body;
