@@ -194,8 +194,12 @@ document.addEventListener("mouseup", () => {
 let quizData = [];
 
 async function generateQuiz() {
-  const topic = quizTopic.value.trim();
+  const topic = document.getElementById("quizTopic").value.trim();
+  const difficulty = document.getElementById("difficulty").value;
+  const count = parseInt(document.getElementById("questionCount").innerText, 10);
+
   if (!topic) return alert("Enter topic");
+  if (!count || count < 1) return alert("Invalid number of questions");
 
   const res = await fetch("http://localhost:5000/generate-quiz", {
     method: "POST",
@@ -203,13 +207,31 @@ async function generateQuiz() {
       "Content-Type": "application/json",
       Authorization: "Bearer " + localStorage.getItem("token")
     },
-    body: JSON.stringify({ topic })
+    body: JSON.stringify({
+      topic,
+      difficulty,
+      count
+    })
   });
 
   const data = await res.json();
   quizData = data.quiz;
   renderQuiz();
 }
+
+function changeCount(delta) {
+  const countSpan = document.getElementById("questionCount");
+  let current = parseInt(countSpan.innerText, 10);
+
+  current += delta;
+
+  if (current < 1) current = 1;
+  if (current > 20) current = 20;
+
+  countSpan.innerText = current;
+}
+
+
 
 function renderQuiz() {
   quizContainer.innerHTML = "";
@@ -414,4 +436,45 @@ function startVoice() {
 
   micBtn.innerText = "🎙 Listening...";
   recognition.start();
+}
+
+/***********************
+  TYPEWRITER EFFECT
+************************/
+const text = "📘 AI E-Learning Platform";
+let i = 0;
+const speed = 100;
+
+function typeWriter() {
+  if (i < text.length) {
+    document.getElementById("typewriter").innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typeWriter, speed);
+  }
+}
+
+window.addEventListener("load", typeWriter);
+
+
+let quizCount = 5;
+
+function changeCount(value) {
+  quizCount += value;
+  if (quizCount < 5) quizCount = 5;
+  if (quizCount > 20) quizCount = 20;
+  document.getElementById("questionCount").innerText = quizCount;
+}
+
+
+function togglePassword() {
+  const passInput = document.getElementById("passwordInput");
+  const eye = document.querySelector(".toggle-eye");
+
+  if (passInput.type === "password") {
+    passInput.type = "text";
+    eye.innerText = "🐵";
+  } else {
+    passInput.type = "password";
+    eye.innerText = "🙈";
+  }
 }
