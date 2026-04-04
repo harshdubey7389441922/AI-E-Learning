@@ -13,7 +13,15 @@
 
     <input id="nameInput" placeholder="Full Name" style="display:none" />
     <input id="emailInput" placeholder="Email" />
-    <input id="passwordInput" type="password" placeholder="Password" />
+
+<div class="password-box">
+  <input
+    id="passwordInput"
+    type="password"
+    placeholder="Password"
+  />
+  <span class="toggle-eye" onclick="togglePassword()">🙈</span>
+</div>
 
     <!-- Add below password input -->
 <p class="forget-pass" onclick="forgetPassword()">Forgot Password?</p>
@@ -51,9 +59,18 @@
   <div class="app">
 
     <header>
-      <h1>📘 AI E-Learning</h1>
-      <p>Search any study topic & get smart explanations</p>
-    </header>
+  <h1 id="typewriter"></h1>
+  <p class="subtitle">
+    Learn smarter with AI • Chat • Quiz • Notes • PDF
+  </p>
+</header>
+<div class="features">
+  <div class="feature-card">🤖 AI Chatbot</div>
+  <div class="feature-card">📝 Smart Notes</div>
+  <div class="feature-card">🧠 AI Quiz</div>
+  <div class="feature-card">📄 PDF Export</div>
+</div>
+
 
     <div class="card input-card">
       <textarea id="question" placeholder="Enter any study related topic..."></textarea>
@@ -102,8 +119,28 @@
   <input
     type="text"
     id="quizTopic"
-    placeholder="Enter any study topic (e.g. Physics)"
+    placeholder="Enter any quiz topic.."
   />
+<div class="quiz-controls">
+  <div class="control-group">
+    <label>Difficulty Level</label>
+    <select id="difficulty">
+      <option value="easy">Easy</option>
+      <option value="medium" selected>Medium</option>
+      <option value="hard">Hard</option>
+    </select>
+  </div>
+
+  <div class="control-group">
+    <label>Number of Questions</label>
+    <div class="question-count">
+      <button onclick="changeCount(-1)">−</button>
+      <span id="questionCount">5</span>
+      <button onclick="changeCount(1)">+</button>
+    </div>
+  </div>
+</div>
+
 
   <button onclick="generateQuiz()">Generate Quiz</button>
 
