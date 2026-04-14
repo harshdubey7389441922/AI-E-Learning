@@ -323,3 +323,7 @@ app.post("/notes", authenticate, async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+
+app.get("/", (req, res) => {
+  res.send("✅ Backend is running successfully");
+});
