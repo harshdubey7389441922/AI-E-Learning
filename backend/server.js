@@ -46,7 +46,9 @@ app.use(cors());
 app.use(express.json());
 
 /* ================= AI API ================= */
-
+app.get("/", (req, res) => {
+  res.send("✅ Backend is running successfully");
+});
 app.post("/ask-ai", async (req, res) => {
   const { question } = req.body;
 
@@ -324,6 +326,4 @@ app.post("/notes", authenticate, async (req, res) => {
   }
 });
 
-app.get("/", (req, res) => {
-  res.send("✅ Backend is running successfully");
-});
+
