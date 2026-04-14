@@ -59,7 +59,7 @@ async function askAI() {
   answerCard.classList.remove("hidden");
   answer.innerText = "✨ Generating...";
 
-  const res = await fetch("http://localhost:5000/ask-ai", {
+  const res = await fetch("https://ai-e-learning-6nqn.onrender.com/ask-ai", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -86,7 +86,7 @@ function closeAnswer() {
 async function downloadPDF() {
   if (!lastAnswer) return alert("Search topic first");
 
-  const res = await fetch("http://localhost:5000/download-pdf", {
+  const res = await fetch("https://ai-e-learning-6nqn.onrender.com/download-pdf", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -128,7 +128,7 @@ async function sendMessage() {
   const thinking = showMessage("assistant", "Thinking... 🤖");
 
   try {
-    const res = await fetch("http://localhost:5000/chat", {
+    const res = await fetch("https://ai-e-learning-6nqn.onrender.com/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -201,7 +201,7 @@ async function generateQuiz() {
   if (!topic) return alert("Enter topic");
   if (!count || count < 1) return alert("Invalid number of questions");
 
-  const res = await fetch("http://localhost:5000/generate-quiz", {
+  const res = await fetch("https://ai-e-learning-6nqn.onrender.com/generate-quiz", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -331,8 +331,8 @@ async function handleAuth() {
   const password = passwordInput.value;
 
   const url = isLogin
-    ? "http://localhost:5000/login"
-    : "http://localhost:5000/signup";
+    ? "https://ai-e-learning-6nqn.onrender.com/login"
+    : "https://ai-e-learning-6nqn.onrender.com/signup";
 
   const body = isLogin ? { email, password } : { name, email, password };
 
@@ -381,7 +381,7 @@ function closeNotes() {
 
 // Load notes from server
 async function loadNotes() {
-  const res = await fetch("http://localhost:5000/notes", {
+  const res = await fetch("https://ai-e-learning-6nqn.onrender.com/notes", {
     headers: { "Authorization": "Bearer " + localStorage.getItem("token") }
   });
   if (res.status === 401) return logout();
@@ -392,7 +392,7 @@ async function loadNotes() {
 // Save notes to server
 async function saveNotes() {
   const content = notesTextarea.value;
-  const res = await fetch("http://localhost:5000/notes", {
+  const res = await fetch("https://ai-e-learning-6nqn.onrender.com/notes", {
     method: "POST",
     headers: { 
       "Content-Type": "application/json",
